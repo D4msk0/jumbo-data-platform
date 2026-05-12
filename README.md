@@ -55,7 +55,7 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 
 | Stap | Onderwerp | Status |
 |------|-----------|--------|
-| 1 | Project initialiseren: Git, mappenstructuur, `requirements.txt` | ⬜ Todo |
+| 1 | Project initialiseren: Git, mappenstructuur, `requirements.txt` | ✅ Klaar |
 | 2 | Synthetische brondata genereren (sales, products, stores) | ⬜ Todo |
 | 3 | Spark-sessie opzetten met Delta Lake support | ⬜ Todo |
 | 4 | Ingest pipeline: Landing Zone → Bronze | ⬜ Todo |
@@ -118,7 +118,7 @@ streamlit run dashboard/app.py
 
 ## 👤 Over dit project
 
-Gebouwd door **[Jouw naam]** als portfolio ter ondersteuning van de sollicitatie voor
+Gebouwd door **Maarten en Claude** als portfolio ter ondersteuning van de sollicitatie voor
 **Junior Data Platform Engineer** bij **Jumbo Supermarkten**.
 
 ---
