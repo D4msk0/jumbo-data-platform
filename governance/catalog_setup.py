@@ -8,12 +8,11 @@ Lokaal gebruiken we Spark SQL om dezelfde hiërarchie aan te tonen:
 
 import sys
 from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent / "pipelines"))
+from spark_session import get_spark
 
-BASE = Path(__file__).resolve().parent.parent
-sys.path.append(str(BASE))
-from pipelines.spark_session import get_spark
-
-GOLD = BASE / "gold"
+BASE  = Path(__file__).parent.parent
+GOLD  = BASE / "gold"
 
 
 CATALOG = "jumbo_catalog"
