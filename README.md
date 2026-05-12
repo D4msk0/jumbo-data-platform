@@ -63,8 +63,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 6 | Aggregate pipeline: Silver → Gold (business metrics) | ✅ Klaar |
 | 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | ✅ Klaar |
 | 8 | Monitoring: pipeline logging en basismetrics | ✅ Klaar |
-| 9 | Self-service dashboard met Streamlit | 🔄 Bezig |
-| 10 | Databricks Community Edition: project draaien in de cloud | ⬜ Todo |
+| 9 | Self-service dashboard met Streamlit | ✅ Klaar |
+| 10 | Databricks Community Edition: project draaien in de cloud | 🔄 Bezig |
 
 ---
 
