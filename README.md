@@ -60,8 +60,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 3 | Spark-sessie opzetten met Delta Lake support | ✅ Klaar |
 | 4 | Ingest pipeline: Landing Zone → Bronze | ✅ Klaar |
 | 5 | Transform pipeline: Bronze → Silver (cleaning & typing) | ✅ Klaar |
-| 6 | Aggregate pipeline: Silver → Gold (business metrics) | 🔄 Bezig |
-| 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | ⬜ Todo |
+| 6 | Aggregate pipeline: Silver → Gold (business metrics) | ✅ Klaar |
+| 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | 🔄 Bezig |
 | 8 | Monitoring: pipeline logging en basismetrics | ⬜ Todo |
 | 9 | Self-service dashboard met Streamlit | ⬜ Todo |
 | 10 | Databricks Community Edition: project draaien in de cloud | ⬜ Todo |
