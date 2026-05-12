@@ -66,6 +66,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 9 | Self-service dashboard met Streamlit | ✅ Klaar |
 | 10 | Databricks Community Edition: project draaien in de cloud | ⏭️ Bewust overgeslagen |
 
+Noot bij stap 10: Databricks Community Edition biedt geen Unity Catalog of Azure-integratie. De kernconcepten van dit project — Medallion Architecture, Delta Lake, governance en monitoring — zijn volledig aangetoond in de lokale omgeving. In een productiegesprek kan ik toelichten hoe deze onderdelen op een echt Databricks/Azure platform zouden werken.
+
 ---
 
 ## 🛠️ Tech Stack
