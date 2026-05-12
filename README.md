@@ -64,7 +64,7 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | ✅ Klaar |
 | 8 | Monitoring: pipeline logging en basismetrics | ✅ Klaar |
 | 9 | Self-service dashboard met Streamlit | ✅ Klaar |
-| 10 | Databricks Community Edition: project draaien in de cloud | 🔄 Bezig |
+| 10 | Databricks Community Edition: project draaien in de cloud | ⏭️ Bewust overgeslagen |
 
 ---
 
