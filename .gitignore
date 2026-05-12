@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.env
+.venv/
+
+# Delta Lake & Spark output
+bronze/
+silver/
+gold/
+*.crc
+spark-warehouse/
+derby.log
+metastore_db/
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
