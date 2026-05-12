@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Jumbo Data Platform — Technisch Rapport</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; color: #1a1a1a; background: #fff; padding: 40px; max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 32px 0 8px; color: #1a1a1a; }
+  p  { font-size: 14px; line-height: 1.7; color: #444; margin-bottom: 12px; }
+  hr { border: none; border-top: 1px solid #e0e0e0; margin: 28px 0; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 32px; }
+  .chip-rij { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
+  .chip { font-size: 12px; padding: 3px 10px; border-radius: 99px; border: 1px solid #ccc; color: #444; background: #f5f5f5; }
+  .chip.blauw { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; }
+  .chip.groen { background: #EAF3DE; color: #27500A; border-color: #97C459; }
+  .chip.amber { background: #FAEEDA; color: #633806; border-color: #EF9F27; }
+  svg { display: block; width: 100%; margin: 16px 0 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  th { text-align: left; font-weight: 600; padding: 8px 12px; border-bottom: 2px solid #ddd; color: #555; font-size: 12px; }
+  td { padding: 8px 12px; border-bottom: 1px solid #eee; color: #1a1a1a; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+  .badge.bronze { background: #CD7F32; color: #fff; }
+  .badge.silver { background: #B0B8C1; color: #1a1a1a; }
+  .badge.gold   { background: #FFD700; color: #4a3800; }
+  @media print {
+    body { padding: 20px; }
+    h2 { page-break-after: avoid; }
+    svg { page-break-inside: avoid; }
+    table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>🏗️ Jumbo Data Platform</h1>
+<div class="subtitle">Technisch rapport — Portfolio project voor Junior Data Platform Engineer</div>
+
+<p>Dit project bouwt een volledig werkend dataplatform op basis van dezelfde architectuurprincipes die Jumbo gebruikt op Azure &amp; Databricks. Het platform neemt ruwe verkoopdata aan, verwerkt die door drie lagen heen, past data governance toe en presenteert de resultaten in een interactief dashboard.</p>
+
+<div class="chip-rij">
+  <span class="chip blauw">PySpark 3.5.3</span>
+  <span class="chip blauw">Delta Lake 3.2.1</span>
+  <span class="chip groen">Medallion Architecture</span>
+  <span class="chip groen">Data Governance</span>
+  <span class="chip amber">Streamlit Dashboard</span>
+  <span class="chip amber">Platform Monitoring</span>
+</div>
+
+<hr>
+
+<h2>Diagram 1 — Hoog-niveau architectuur</h2>
+<p>Data stroomt van links naar rechts, van ruwe brondata tot een interactief dashboard.</p>
+
+<svg viewBox="0 0 860 160" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- Landing Zone -->
+  <rect x="20" y="30" width="130" height="90" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+  <text x="85" y="68" text-anchor="middle" font-size="13" font-weight="600" fill="#085041">Landing</text>
+  <text x="85" y="85" text-anchor="middle" font-size="13" font-weight="600" fill="#085041">Zone</text>
+  <text x="85" y="106" text-anchor="middle" font-size="11" fill="#0F6E56">CSV / JSON</text>
+  <line x1="150" y1="75" x2="175" y2="75" stroke="#666" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Bronze -->
+  <rect x="175" y="30" width="130" height="90" rx="10" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="240" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#4A1B0C">Bronze</text>
+  <text x="240" y="90" text-anchor="middle" font-size="11" fill="#993C1D">Raw Delta</text>
+  <text x="240" y="108" text-anchor="middle" font-size="11" fill="#993C1D">Immutable</text>
+  <line x1="305" y1="75" x2="330" y2="75" stroke="#666" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Silver -->
+  <rect x="330" y="30" width="130" height="90" rx="10" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="395" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#2C2C2A">Silver</text>
+  <text x="395" y="90" text-anchor="middle" font-size="11" fill="#5F5E5A">Cleaned</text>
+  <text x="395" y="108" text-anchor="middle" font-size="11" fill="#5F5E5A">Typed</text>
+  <line x1="460" y1="75" x2="485" y2="75" stroke="#666" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Gold -->
+  <rect x="485" y="30" width="130" height="90" rx="10" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="550" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#412402">Gold</text>
+  <text x="550" y="90" text-anchor="middle" font-size="11" fill="#854F0B">Aggregated</text>
+  <text x="550" y="108" text-anchor="middle" font-size="11" fill="#854F0B">Business</text>
+  <line x1="615" y1="75" x2="640" y2="75" stroke="#666" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- Dashboard -->
+  <rect x="640" y="30" width="200" height="90" rx="10" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="740" y="72" text-anchor="middle" font-size="13" font-weight="600" fill="#26215C">Dashboard</text>
+  <text x="740" y="90" text-anchor="middle" font-size="11" fill="#534AB7">Streamlit</text>
+  <text x="740" y="108" text-anchor="middle" font-size="11" fill="#534AB7">Self-service</text>
+</svg>
+
+<hr>
+
+<h2>Diagram 2 — Projectstructuur</h2>
+<p>Het project is opgedeeld in mappen met een duidelijke verantwoordelijkheid per onderdeel.</p>
+
+<svg viewBox="0 0 860 380" xmlns="http://www.w3.org/2000/svg">
+  <!-- Root -->
+  <rect x="280" y="10" width="300" height="50" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+  <text x="430" y="32" text-anchor="middle" font-size="13" font-weight="600" fill="#042C53">jumbo-data-platform/</text>
+  <text x="430" y="50" text-anchor="middle" font-size="11" fill="#185FA5">projectroot</text>
+  <!-- Vertikale lijn omlaag -->
+  <line x1="430" y1="60" x2="430" y2="90" stroke="#ccc" stroke-width="1"/>
+  <!-- Horizontale lijn -->
+  <line x1="80" y1="90" x2="780" y2="90" stroke="#ccc" stroke-width="1"/>
+  <!-- Takken -->
+  <line x1="100" y1="90" x2="100" y2="110" stroke="#ccc" stroke-width="1"/>
+  <line x1="260" y1="90" x2="260" y2="110" stroke="#ccc" stroke-width="1"/>
+  <line x1="430" y1="90" x2="430" y2="110" stroke="#ccc" stroke-width="1"/>
+  <line x1="600" y1="90" x2="600" y2="110" stroke="#ccc" stroke-width="1"/>
+  <line x1="760" y1="90" x2="760" y2="110" stroke="#ccc" stroke-width="1"/>
+
+  <!-- pipelines/ -->
+  <rect x="30" y="110" width="140" height="46" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+  <text x="100" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#085041">pipelines/</text>
+  <text x="100" y="147" text-anchor="middle" font-size="10" fill="#0F6E56">verwerking</text>
+  <line x1="100" y1="156" x2="100" y2="175" stroke="#ccc" stroke-width="1"/>
+  <rect x="20" y="175" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="100" y="195" text-anchor="middle" font-size="11" fill="#444">spark_session.py</text>
+  <line x1="100" y1="205" x2="100" y2="220" stroke="#ccc" stroke-width="1"/>
+  <rect x="20" y="220" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="100" y="240" text-anchor="middle" font-size="11" fill="#444">ingest.py</text>
+  <line x1="100" y1="250" x2="100" y2="265" stroke="#ccc" stroke-width="1"/>
+  <rect x="20" y="265" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="100" y="285" text-anchor="middle" font-size="11" fill="#444">transform.py</text>
+  <line x1="100" y1="295" x2="100" y2="310" stroke="#ccc" stroke-width="1"/>
+  <rect x="20" y="310" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="100" y="330" text-anchor="middle" font-size="11" fill="#444">aggregate.py</text>
+
+  <!-- landing_zone/ -->
+  <rect x="185" y="110" width="150" height="46" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+  <text x="260" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#173404">landing_zone/</text>
+  <text x="260" y="147" text-anchor="middle" font-size="10" fill="#3B6D11">brondata</text>
+  <line x1="260" y1="156" x2="260" y2="175" stroke="#ccc" stroke-width="1"/>
+  <rect x="185" y="175" width="150" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="260" y="195" text-anchor="middle" font-size="11" fill="#444">sales_2024.csv</text>
+  <line x1="260" y1="205" x2="260" y2="220" stroke="#ccc" stroke-width="1"/>
+  <rect x="185" y="220" width="150" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="260" y="240" text-anchor="middle" font-size="11" fill="#444">products.csv</text>
+  <line x1="260" y1="250" x2="260" y2="265" stroke="#ccc" stroke-width="1"/>
+  <rect x="185" y="265" width="150" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="260" y="285" text-anchor="middle" font-size="11" fill="#444">stores.csv</text>
+
+  <!-- governance/ -->
+  <rect x="355" y="110" width="150" height="46" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="430" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#26215C">governance/</text>
+  <text x="430" y="147" text-anchor="middle" font-size="10" fill="#534AB7">beleid &amp; catalog</text>
+  <line x1="430" y1="156" x2="430" y2="175" stroke="#ccc" stroke-width="1"/>
+  <rect x="350" y="175" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="430" y="195" text-anchor="middle" font-size="11" fill="#444">catalog_setup.py</text>
+  <line x1="430" y1="205" x2="430" y2="220" stroke="#ccc" stroke-width="1"/>
+  <rect x="350" y="220" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="430" y="240" text-anchor="middle" font-size="11" fill="#444">access_policy.md</text>
+  <line x1="430" y1="250" x2="430" y2="265" stroke="#ccc" stroke-width="1"/>
+  <rect x="350" y="265" width="160" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="430" y="285" text-anchor="middle" font-size="11" fill="#444">data_dictionary.md</text>
+
+  <!-- monitoring/ -->
+  <rect x="525" y="110" width="150" height="46" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="1"/>
+  <text x="600" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#4A1B0C">monitoring/</text>
+  <text x="600" y="147" text-anchor="middle" font-size="10" fill="#993C1D">platform health</text>
+  <line x1="600" y1="156" x2="600" y2="175" stroke="#ccc" stroke-width="1"/>
+  <rect x="515" y="175" width="170" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="600" y="195" text-anchor="middle" font-size="11" fill="#444">pipeline_monitor.py</text>
+
+  <!-- dashboard/ -->
+  <rect x="690" y="110" width="140" height="46" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="760" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#412402">dashboard/</text>
+  <text x="760" y="147" text-anchor="middle" font-size="10" fill="#854F0B">visualisatie</text>
+  <line x1="760" y1="156" x2="760" y2="175" stroke="#ccc" stroke-width="1"/>
+  <rect x="690" y="175" width="140" height="30" rx="6" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+  <text x="760" y="195" text-anchor="middle" font-size="11" fill="#444">app.py</text>
+</svg>
+
+<hr>
+
+<h2>Diagram 3 — Data flow per pipeline</h2>
+<p>Elke pipeline-stap heeft een specifieke verantwoordelijkheid. Samen vormen ze de Medallion Architecture.</p>
+
+<svg viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- ingest.py -->
+  <rect x="20" y="20" width="230" height="260" rx="12" fill="#EAF3DE" stroke="#3B6D11" stroke-width="1"/>
+  <text x="135" y="50" text-anchor="middle" font-size="13" font-weight="600" fill="#173404">ingest.py</text>
+  <text x="135" y="68" text-anchor="middle" font-size="11" fill="#3B6D11">Landing → Bronze</text>
+  <rect x="36" y="85" width="198" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="135" y="108" text-anchor="middle" font-size="12" fill="#444">CSV inlezen</text>
+  <line x1="135" y1="121" x2="135" y2="141" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="36" y="141" width="198" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="135" y="164" text-anchor="middle" font-size="12" fill="#444">Schema infereren</text>
+  <line x1="135" y1="177" x2="135" y2="197" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="36" y="197" width="198" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="135" y="220" text-anchor="middle" font-size="12" fill="#444">Delta schrijven</text>
+  <rect x="36" y="258" width="198" height="12" rx="4" fill="#CD7F32"/>
+
+  <line x1="250" y1="150" x2="300" y2="150" stroke="#666" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- transform.py -->
+  <rect x="300" y="20" width="250" height="260" rx="12" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="425" y="50" text-anchor="middle" font-size="13" font-weight="600" fill="#2C2C2A">transform.py</text>
+  <text x="425" y="68" text-anchor="middle" font-size="11" fill="#5F5E5A">Bronze → Silver</text>
+  <rect x="316" y="85" width="218" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="425" y="108" text-anchor="middle" font-size="12" fill="#444">Duplicaten verwijderen</text>
+  <line x1="425" y1="121" x2="425" y2="141" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="316" y="141" width="218" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="425" y="164" text-anchor="middle" font-size="12" fill="#444">Types casten</text>
+  <line x1="425" y1="177" x2="425" y2="197" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="316" y="197" width="218" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="425" y="220" text-anchor="middle" font-size="12" fill="#444">Kolommen toevoegen</text>
+  <rect x="316" y="258" width="218" height="12" rx="4" fill="#B0B8C1"/>
+
+  <line x1="550" y1="150" x2="600" y2="150" stroke="#666" stroke-width="1.5" marker-end="url(#arr2)"/>
+
+  <!-- aggregate.py -->
+  <rect x="600" y="20" width="240" height="260" rx="12" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="720" y="50" text-anchor="middle" font-size="13" font-weight="600" fill="#412402">aggregate.py</text>
+  <text x="720" y="68" text-anchor="middle" font-size="11" fill="#854F0B">Silver → Gold</text>
+  <rect x="616" y="85" width="208" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="720" y="108" text-anchor="middle" font-size="12" fill="#444">Tabellen joinen</text>
+  <line x1="720" y1="121" x2="720" y2="141" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="616" y="141" width="208" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="720" y="164" text-anchor="middle" font-size="12" fill="#444">Groeperen &amp; optellen</text>
+  <line x1="720" y1="177" x2="720" y2="197" stroke="#aaa" stroke-width="1" marker-end="url(#arr2)"/>
+  <rect x="616" y="197" width="208" height="36" rx="6" fill="#fff" stroke="#ddd" stroke-width="1"/>
+  <text x="720" y="220" text-anchor="middle" font-size="12" fill="#444">KPI's berekenen</text>
+  <rect x="616" y="258" width="208" height="12" rx="4" fill="#FFD700"/>
+</svg>
+
+<hr>
+
+<h2>Diagram 4 — Gold-laag tabellen</h2>
+<p>De Gold-laag bevat vier geaggregeerde tabellen die rechtstreeks door het dashboard worden gebruikt.</p>
+
+<svg viewBox="0 0 860 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <!-- Silver -->
+  <rect x="20" y="70" width="130" height="60" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="1"/>
+  <text x="85" y="96" text-anchor="middle" font-size="13" font-weight="600" fill="#2C2C2A">Silver</text>
+  <text x="85" y="114" text-anchor="middle" font-size="11" fill="#5F5E5A">3 tabellen</text>
+  <!-- Pijlen -->
+  <line x1="150" y1="80"  x2="240" y2="35"  stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="150" y1="90"  x2="240" y2="85"  stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="150" y1="105" x2="240" y2="135" stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="150" y1="115" x2="240" y2="178" stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <!-- Gold tabellen -->
+  <rect x="240" y="15"  width="220" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="350" y="34"  text-anchor="middle" font-size="12" font-weight="600" fill="#412402">omzet_per_winkel</text>
+  <text x="350" y="50"  text-anchor="middle" font-size="11" fill="#854F0B">10 filialen</text>
+  <rect x="240" y="65"  width="220" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="350" y="84"  text-anchor="middle" font-size="12" font-weight="600" fill="#412402">omzet_per_categorie</text>
+  <text x="350" y="100" text-anchor="middle" font-size="11" fill="#854F0B">6 categorieën</text>
+  <rect x="240" y="115" width="220" height="44" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="350" y="134" text-anchor="middle" font-size="12" font-weight="600" fill="#412402">omzet_per_maand</text>
+  <text x="350" y="150" text-anchor="middle" font-size="11" fill="#854F0B">12 maanden</text>
+  <rect x="240" y="165" width="220" height="30" rx="8" fill="#FAEEDA" stroke="#854F0B" stroke-width="1"/>
+  <text x="350" y="185" text-anchor="middle" font-size="12" font-weight="600" fill="#412402">top_producten</text>
+  <!-- Pijlen naar dashboard -->
+  <line x1="460" y1="37"  x2="540" y2="80"  stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="460" y1="87"  x2="540" y2="90"  stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="460" y1="137" x2="540" y2="100" stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <line x1="460" y1="180" x2="540" y2="110" stroke="#666" stroke-width="1.5" marker-end="url(#arr3)"/>
+  <!-- Dashboard -->
+  <rect x="540" y="60" width="250" height="70" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="1"/>
+  <text x="665" y="88"  text-anchor="middle" font-size="13" font-weight="600" fill="#26215C">Streamlit dashboard</text>
+  <text x="665" y="108" text-anchor="middle" font-size="11" fill="#534AB7">KPI's + grafieken</text>
+</svg>
+
+<hr>
+
+<h2>Kernconcepten uitgelegd</h2>
+
+<table>
+  <tr><th>Concept</th><th>Wat het is</th><th>Waar in het project</th></tr>
+  <tr>
+    <td><span class="badge bronze">Bronze</span></td>
+    <td>Ruwe data exact zoals ontvangen, omgezet naar Delta-formaat. Nooit aanpassen.</td>
+    <td>ingest.py → bronze/</td>
+  </tr>
+  <tr>
+    <td><span class="badge silver">Silver</span></td>
+    <td>Gecleande, getypeerde data. Duplicaten weg, datatypes correct, nulls gefilterd.</td>
+    <td>transform.py → silver/</td>
+  </tr>
+  <tr>
+    <td><span class="badge gold">Gold</span></td>
+    <td>Business-klare aggregaties. Directe input voor dashboards en rapporten.</td>
+    <td>aggregate.py → gold/</td>
+  </tr>
+  <tr>
+    <td>Delta Lake</td>
+    <td>Opslagformaat bovenop Parquet met ACID-transacties, versiebeheer en schema-afdwinging.</td>
+    <td>Elke pipeline</td>
+  </tr>
+  <tr>
+    <td>Unity Catalog</td>
+    <td>Hiërarchie: catalog → schema → tabel. Regelt wie wat mag zien en gebruiken.</td>
+    <td>governance/catalog_setup.py</td>
+  </tr>
+  <tr>
+    <td>Landing Zone</td>
+    <td>Gecontroleerde ingang voor brondata. Alleen lezen, nooit verwerkt data terugschrijven.</td>
+    <td>landing_zone/</td>
+  </tr>
+  <tr>
+    <td>Monitoring</td>
+    <td>Controleert of alle tabellen bestaan, rijen bevatten en recent zijn.</td>
+    <td>monitoring/pipeline_monitor.py</td>
+  </tr>
+</table>
+
+</body>
+</html>
