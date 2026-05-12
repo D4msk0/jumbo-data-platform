@@ -56,8 +56,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | Stap | Onderwerp | Status |
 |------|-----------|--------|
 | 1 | Project initialiseren: Git, mappenstructuur, `requirements.txt` | ✅ Klaar |
-| 2 | Synthetische brondata genereren (sales, products, stores) | ⬜ Todo |
-| 3 | Spark-sessie opzetten met Delta Lake support | ⬜ Todo |
+| 2 | Synthetische brondata genereren (sales, products, stores) | ✅ Klaar |
+| 3 | Spark-sessie opzetten met Delta Lake support | ⬜ bezig |
 | 4 | Ingest pipeline: Landing Zone → Bronze | ⬜ Todo |
 | 5 | Transform pipeline: Bronze → Silver (cleaning & typing) | ⬜ Todo |
 | 6 | Aggregate pipeline: Silver → Gold (business metrics) | ⬜ Todo |
