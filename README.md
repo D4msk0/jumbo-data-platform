@@ -61,8 +61,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 4 | Ingest pipeline: Landing Zone → Bronze | ✅ Klaar |
 | 5 | Transform pipeline: Bronze → Silver (cleaning & typing) | ✅ Klaar |
 | 6 | Aggregate pipeline: Silver → Gold (business metrics) | ✅ Klaar |
-| 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | 🔄 Bezig |
-| 8 | Monitoring: pipeline logging en basismetrics | ⬜ Todo |
+| 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | ✅ Klaar |
+| 8 | Monitoring: pipeline logging en basismetrics | 🔄 Bezig |
 | 9 | Self-service dashboard met Streamlit | ⬜ Todo |
 | 10 | Databricks Community Edition: project draaien in de cloud | ⬜ Todo |
 
