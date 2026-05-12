@@ -59,8 +59,8 @@ De onderstaande stappen worden één voor één doorlopen. Elke stap resulteert 
 | 2 | Synthetische brondata genereren (sales, products, stores) | ✅ Klaar |
 | 3 | Spark-sessie opzetten met Delta Lake support | ✅ Klaar |
 | 4 | Ingest pipeline: Landing Zone → Bronze | ✅ Klaar |
-| 5 | Transform pipeline: Bronze → Silver (cleaning & typing) | 🔄 Bezig |
-| 6 | Aggregate pipeline: Silver → Gold (business metrics) | ⬜ Todo |
+| 5 | Transform pipeline: Bronze → Silver (cleaning & typing) | ✅ Klaar |
+| 6 | Aggregate pipeline: Silver → Gold (business metrics) | 🔄 Bezig |
 | 7 | Data governance: catalog-structuur en toegangsbeleid documenteren | ⬜ Todo |
 | 8 | Monitoring: pipeline logging en basismetrics | ⬜ Todo |
 | 9 | Self-service dashboard met Streamlit | ⬜ Todo |
