@@ -1,0 +1,31 @@
+product_id,product_name,category,price_eur,is_jumbo_huismerk,weight_gram
+PR0001,Melk,Zuivel,4.23,False,1000
+PR0002,Yoghurt,Zuivel,3.07,True,250
+PR0003,Kaas,Zuivel,6.51,False,500
+PR0004,Boter,Zuivel,2.06,False,100
+PR0005,Kwark,Zuivel,1.55,True,500
+PR0006,Witbrood,Brood & Gebak,7.74,False,100
+PR0007,Volkoren,Brood & Gebak,6.77,True,750
+PR0008,Croissant,Brood & Gebak,1.44,False,1000
+PR0009,Muffin,Brood & Gebak,8.05,False,1000
+PR0010,Baguette,Brood & Gebak,2.37,True,100
+PR0011,Appel,Groente & Fruit,6.21,False,100
+PR0012,Banaan,Groente & Fruit,7.8,True,750
+PR0013,Tomaat,Groente & Fruit,3.07,False,250
+PR0014,Sla,Groente & Fruit,3.83,True,500
+PR0015,Wortel,Groente & Fruit,6.54,True,1000
+PR0016,Kipfilet,Vlees & Vis,6.0,True,250
+PR0017,Gehakt,Vlees & Vis,4.58,False,1000
+PR0018,Zalm,Vlees & Vis,2.59,False,100
+PR0019,Tonijn,Vlees & Vis,2.67,True,500
+PR0020,Spek,Vlees & Vis,4.08,True,250
+PR0021,Cola,Dranken,8.28,False,250
+PR0022,Jus d'orange,Dranken,6.16,False,750
+PR0023,Water,Dranken,1.96,True,250
+PR0024,Bier,Dranken,6.9,False,1000
+PR0025,Wijn,Dranken,4.3,False,500
+PR0026,Chips,Snacks,2.59,True,1000
+PR0027,Noten,Snacks,4.84,True,100
+PR0028,Chocolade,Snacks,2.04,True,750
+PR0029,Koekjes,Snacks,5.68,False,750
+PR0030,Drop,Snacks,5.68,False,1000

@@ -1,0 +1,11 @@
+store_id,store_name,city,format,opening_year,floor_area_m2
+ST001,Jumbo Amsterdam Centrum,Amsterdam,Buurtwinkel,1998,502
+ST002,Jumbo Rotterdam Zuid,Rotterdam,Buurtwinkel,2003,1403
+ST003,Jumbo Utrecht Overvecht,Utrecht,Superstore,1999,3416
+ST004,Jumbo Den Haag Ypenburg,Den,Superstore,2016,3433
+ST005,Jumbo Eindhoven Woensel,Eindhoven,Buurtwinkel,1997,2818
+ST006,Jumbo Groningen Noord,Groningen,Stadswinkel,1996,522
+ST007,Jumbo Tilburg Centrum,Tilburg,Superstore,2001,1352
+ST008,Jumbo Almere Stad,Almere,Buurtwinkel,2014,508
+ST009,Jumbo Breda Centrum,Breda,Buurtwinkel,2001,3332
+ST010,Jumbo Nijmegen Dukenburg,Nijmegen,Buurtwinkel,2017,2632
